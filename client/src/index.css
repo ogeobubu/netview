@@ -19,3 +19,8 @@
 .close {
   display: none !important;
 }
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
