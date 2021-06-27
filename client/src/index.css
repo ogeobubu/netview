@@ -24,3 +24,8 @@
   text-decoration: none;
   color: inherit;
 }
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: #df454c;
+}

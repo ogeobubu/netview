@@ -12,11 +12,16 @@ import {
   NewNetview,
   SignUpNow,
 } from "./styles";
+import { CircularProgress } from "@material-ui/core";
+import axios from "axios";
 import { Facebook } from "@material-ui/icons";
 import Notification from "../../../utils/Notification/Notification";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { dispatchUser } from "../../../redux/actions/userAction";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const [signin, setSignIn] = useState(true);
   const [alert, setAlert] = useState({
     show: false,
@@ -29,57 +34,102 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const removeAlert = (show = false, message = "", type = "") => {
     setAlert({ show, message, type });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (signin) {
-      const user = {
-        email,
-        password,
-      };
-
-      if (!email || !password) {
-        return setAlert({
-          show: true,
-          message: "Please insert all values",
-          type: "error",
-        });
-      } else {
-        console.log(user);
-        setAlert({
-          show: true,
-          message: "You have successfully logged in!",
-          type: "success",
-        });
-      }
-    } else {
-      if (password !== confirmPassword) {
-        setAlert({
-          show: true,
-          message: "Passwords do not match",
-          type: "error",
-        });
-      } else {
+      try {
         const user = {
-          firstName,
-          lastName,
-          username,
           email,
           password,
-          confirmPassword,
         };
 
-        console.log(user);
+        if (!email || !password) {
+          return setAlert({
+            show: true,
+            message: "All inputs are required!",
+            type: "error",
+          });
+        } else {
+          setLoading(true);
+          const response = await axios.post("/api/auth/login", user);
+          console.log(response.data);
+          setLoading(false);
+          dispatch({ type: "LOGIN" });
+          dispatch(dispatchUser(response));
+          setAlert({
+            show: true,
+            message: "You have successfully logged in!",
+            type: "success",
+          });
+        }
+      } catch (error) {
+        setLoading(true);
         setAlert({
           show: true,
-          message: "You have successfully created an account!",
-          type: "success",
+          message: error.response.data.message,
+          type: "error",
         });
+        setLoading(false);
+      }
+    } else {
+      function validateEmail(email) {
+        const re =
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+      }
+      try {
+        if (!firstName || !lastName || !username || !email || !password) {
+          setAlert({
+            show: true,
+            message: "All fields required!",
+            type: "error",
+          });
+        } else if (!validateEmail(email)) {
+          setAlert({
+            show: true,
+            message: "Email is invalid!",
+            type: "error",
+          });
+        } else if (password !== confirmPassword) {
+          setAlert({
+            show: true,
+            message: "Passwords do not match",
+            type: "error",
+          });
+        } else {
+          const user = {
+            firstName,
+            lastName,
+            username,
+            email,
+            password,
+          };
+          setLoading(true);
+          const response = await axios.post("/api/auth/create", user);
+          console.log(response.data);
+          setLoading(false);
+          // setAlert({
+          //   show: true,
+          //   message: "You have successfully created an account!",
+          //   type: "success",
+          // });
+          setSignIn(!signin);
+        }
+      } catch (error) {
+        setLoading(true);
+        setAlert({
+          show: true,
+          message: error.response.data.message,
+          type: "error",
+        });
+        setLoading(false);
       }
     }
   };
@@ -129,7 +179,9 @@ const SignUp = () => {
                   />
                 </FormControl>
 
-                <Button type="submit">Sign In</Button>
+                <Button disabled={loading ? true : false} type="submit">
+                  {loading ? <CircularProgress /> : "Sign In"}
+                </Button>
 
                 <RememberHelp>
                   <Remember>
@@ -249,7 +301,9 @@ const SignUp = () => {
                   />
                 </FormControl>
 
-                <Button type="submit">Sign Up</Button>
+                <Button disabled={loading ? true : false} type="submit">
+                  {loading ? <CircularProgress /> : "Sign Up"}
+                </Button>
 
                 <NewNetview>
                   Already have an account?{" "}

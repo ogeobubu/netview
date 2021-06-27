@@ -11,8 +11,6 @@ import Footer from "./components/Footer/Footer";
 
 import Login from "./pages/Login/Login";
 
-// 496px width 92px height
-
 function App() {
   return (
     <Router>

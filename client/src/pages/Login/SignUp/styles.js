@@ -31,8 +31,8 @@ export const SignUpContainer = styled.div`
   }
 
   @media screen and (max-width: 450px) {
-    padding: 1rem 0;
-    margin-top: 2rem;
+    padding: 0;
+    margin-top: 0;
   }
 `;
 
@@ -65,6 +65,10 @@ export const FormControl = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
+
+  @media screen and (max-width: 450px) {
+    margin-bottom: 5px;
+  }
 `;
 
 export const Button = styled.button`
@@ -85,6 +89,10 @@ export const Button = styled.button`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
+
+  @media screen and (max-width: 450px) {
+    margin-top: 0;
+  }
 `;
 
 export const RememberHelp = styled.div`
@@ -93,6 +101,10 @@ export const RememberHelp = styled.div`
   align-items: center;
   margin-top: 15px;
   color: #b3b3b3;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const Remember = styled.div`
