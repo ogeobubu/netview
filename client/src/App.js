@@ -10,6 +10,8 @@ import FAQ from "./components/FAQ/FAQ";
 import Footer from "./components/Footer/Footer";
 
 import Login from "./pages/Login/Login";
+import HomePage from "./pages/HomePage/HomePage";
+import Movie from "./pages/Movie/Movie";
 
 function App() {
   return (
@@ -25,8 +27,14 @@ function App() {
           <FAQ />
           <Footer />
         </Route>
-        <Route path="/auth" exact>
+        <Route path="/auth">
           <Login />
+        </Route>
+        <Route path="/homepage">
+          <HomePage />
+        </Route>
+        <Route path="/movie/:id">
+          <Movie />
         </Route>
       </Switch>
     </Router>

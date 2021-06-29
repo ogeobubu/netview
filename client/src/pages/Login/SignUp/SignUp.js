@@ -18,9 +18,11 @@ import { Facebook } from "@material-ui/icons";
 import Notification from "../../../utils/Notification/Notification";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { dispatchUser } from "../../../redux/actions/userAction";
 
 const SignUp = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [signin, setSignIn] = useState(true);
   const [alert, setAlert] = useState({
@@ -59,7 +61,7 @@ const SignUp = () => {
         } else {
           setLoading(true);
           const response = await axios.post("/api/auth/login", user);
-          console.log(response.data);
+          localStorage.setItem("token", response.data.token);
           setLoading(false);
           dispatch({ type: "LOGIN" });
           dispatch(dispatchUser(response));
@@ -68,6 +70,7 @@ const SignUp = () => {
             message: "You have successfully logged in!",
             type: "success",
           });
+          history.push("/homepage");
         }
       } catch (error) {
         setLoading(true);
@@ -115,11 +118,6 @@ const SignUp = () => {
           const response = await axios.post("/api/auth/create", user);
           console.log(response.data);
           setLoading(false);
-          // setAlert({
-          //   show: true,
-          //   message: "You have successfully created an account!",
-          //   type: "success",
-          // });
           setSignIn(!signin);
         }
       } catch (error) {
@@ -156,6 +154,7 @@ const SignUp = () => {
                       outline: "none",
                       appearance: "none",
                       border: "none",
+                      color: "white",
                     }}
                     type="text"
                     placeholder="Email or phone number"
@@ -173,6 +172,7 @@ const SignUp = () => {
                       outline: "none",
                       appearance: "none",
                       border: "none",
+                      color: "white",
                     }}
                     placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
@@ -214,6 +214,7 @@ const SignUp = () => {
                       outline: "none",
                       appearance: "none",
                       border: "none",
+                      color: "white",
                     }}
                     type="text"
                     placeholder="First Name"
@@ -230,6 +231,7 @@ const SignUp = () => {
                       outline: "none",
                       appearance: "none",
                       border: "none",
+                      color: "white",
                     }}
                     type="text"
                     placeholder="Last Name"
@@ -246,6 +248,7 @@ const SignUp = () => {
                       outline: "none",
                       appearance: "none",
                       border: "none",
+                      color: "white",
                     }}
                     type="text"
                     placeholder="Username"
@@ -262,6 +265,7 @@ const SignUp = () => {
                       outline: "none",
                       appearance: "none",
                       border: "none",
+                      color: "white",
                     }}
                     type="text"
                     placeholder="Email Address"
@@ -279,6 +283,7 @@ const SignUp = () => {
                       outline: "none",
                       appearance: "none",
                       border: "none",
+                      color: "white",
                     }}
                     placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
@@ -295,6 +300,7 @@ const SignUp = () => {
                       outline: "none",
                       appearance: "none",
                       border: "none",
+                      color: "white",
                     }}
                     placeholder="Confirm Password"
                     onChange={(e) => setConfirmPassword(e.target.value)}

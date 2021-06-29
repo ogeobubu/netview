@@ -16,6 +16,20 @@
   margin-bottom: 9px;
 }
 
+.navbar {
+  color: white;
+  position: fixed;
+  top: 0;
+  font-size: 14px;
+  z-index: 999;
+  width: 100%;
+  background: linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.3), 50%);
+}
+
+.navbar.scrolled {
+  background-color: rgba(87, 47, 47, 0.7);
+}
+
 .close {
   display: none !important;
 }
@@ -23,6 +37,14 @@
 .link {
   text-decoration: none;
   color: inherit;
+}
+
+.linkMovie {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button:disabled {
